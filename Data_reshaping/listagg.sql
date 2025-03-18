@@ -1,6 +1,6 @@
-/* 1. 데이터 출력 형식 변환 */
+/* 데이터 출력 형식 변환 */
 
-/* LISTAGG : 데이터를 가로로 출력 */
+/* 1. LISTAGG : 데이터를 가로로 출력 */
 SELECT deptno, LISTAGG(ename, ', ') within group (ORDER BY ename) as EMPLOYEE
 FROM EMP
 GROUP BY deptno;
@@ -19,7 +19,6 @@ LISTAGG(ename || '(' || sal || ')', ',') within group (ORDER BY ename asc) AS EM
 FROM emp1
 GROUP BY job;
 -- 연결 연산자를 사용해 직업별로 월급의 분포를 한눈에 확인하기
-
 
 
 /* 2. SUM + DECODE (ROW를 COLUMN으로 출력) */
@@ -123,5 +122,3 @@ SELECT *
     FROM order2
     UNPIVOT INCLUDE NULLS( 건수 for 아이템 in (BICYCLE as 'B', CAMERA as 'C', NOTEBOOK as 'N'));
 -- INCLUDE NULLS : NULL값도 결과에 포함해 출력
-
-
