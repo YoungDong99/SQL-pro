@@ -111,3 +111,34 @@ SELECT empno, ename, sal, SUM(SAL) OVER (ORDER BY empno ROWS
 -- > 두 번째 행의 누적치는 제일 첫 번째 행의 값과 현재 행의 값을 합한 결과
 
 
+/* 7. RATIO_TO_REPORT */
+
+-- 부서번호가 20번일 사원들의 부서 내 자신의 월급 비율 출력
+SELECT empno, ename, sal, RATIO_TO_REPORT(sal) OVER ( ) as 비율
+FROM emp
+WHERE deptno = 20;
+
+-- 20번 부서 번호인 사원들의 월급을 20번 부서 번호인 사원들의 전체 월급으로 나누어 출력 > 결과 동일
+SELECT empno, ename, sal, RATIO_TO_REPORT(sal) OVER ( ) as 비율,
+                                    SAL/SUM(sal) OVER ( ) as "비교 비율"
+FROM emp
+WHERE deptno = 20;
+
+
+/* 8. ROW_NUMBER */
+
+-- ROW_NUMBER() : 출력되는 각 행에 고유한 숫자 값을 부여하는 데이터 분석 함수
+SELECT empno, ename, sal, RANK() OVER (ORDER BY sal DESC) RANK,
+                                DENSE_RANK() OVER (ORDER BY sal DESC) DENSE_RANK,
+                                ROW_NUMBER() OVER (ORDER BY sal DESC) 번호
+    FROM emp1
+    WHERE deptno = 20;
+-- OVER 다음 괄호 안에 반드시 ORDER BY절 기술, 안하면 에러 발생
+
+
+-- PARTITION BY를 사용해 부서 번호별 순위 부여
+SELECT empno, ename, sal, ROW_NUMBER() OVER (PARTITION BY deptno
+                                                                    ORDER BY sal DESC) 번호
+    FROM emp1
+    WHERE deptno IN (10, 20);
+
