@@ -97,5 +97,17 @@ FROM emp;
 -- 부서별로 구분해서 바로 전 입사한 사원의 입사일, 바로 다음에 입사한 사원의 입사일 출력
 
 
+/* 6. SUM OVER : 누적데이터 출력력 */
+
+SELECT empno, ename, sal, SUM(SAL) OVER (ORDER BY empno ROWS
+                                                            BETWEEN UNBOUNDED PRECEDING
+                                                            AND CURRENT ROW) 누적치
+    FROM emp
+    WHERE job IN('ANALYST', 'MANAGER');
+-- 직업이 ANALYST, MANAGER인 사원들의 월급 누적치를 출력
+-- ORDER BY empno를 통해 정렬하고 정렬된 것을 기준으로 누적치를 출력
+-- UNBOUNDED PRECEDING : 제일 첫 번째 행을 가리킴
+-- BETWEEN UNBOUNDED AND CURRENT ROW : 제일 첫번째 행부터 현재 행까지의 값
+-- > 두 번째 행의 누적치는 제일 첫 번째 행의 값과 현재 행의 값을 합한 결과
 
 
