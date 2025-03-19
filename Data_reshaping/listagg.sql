@@ -122,3 +122,53 @@ SELECT *
     FROM order2
     UNPIVOT INCLUDE NULLS( 건수 for 아이템 in (BICYCLE as 'B', CAMERA as 'C', NOTEBOOK as 'N'));
 -- INCLUDE NULLS : NULL값도 결과에 포함해 출력
+
+
+
+/* 5. ROWNUM : 출력되는 행 제한*/
+
+SELECT ROWNUM, empno, ename, job, sal
+FROM emp
+WHERE ROWNUM <= 5;
+-- 상단 5개의 행만 출력
+
+
+/* 6. Simple TOP-n  Queries */
+
+-- 정렬된 결과로부터 위쪽 또는 아래쪽의 N개의 행을 반환
+
+SELECT empno, ename, job, sal
+FROM emp
+ORDER BY sal DESC FETCH FIRST 4 ROWS ONLY;
+-- 월급이 높은 사원순으로 4개의 행으로 제한
+
+
+SELECT empno, ename, job, sal
+FROM emp
+ORDER BY sal DESC
+FETCH FIRST 20 PERCENT ROWS ONLY;
+-- 월급이 높은 사원들 중 20%에 해당하는 사원들만 출력
+
+
+-- [옵션] WITH TIES : 동일값 출력
+SELECT empno, ename, job, sal
+FROM emp1
+ORDER BY sal DESC FETCH FIRST 2 ROWS WITH TIES;
+-- 여러 행이 N번째 행의 값과 동일하다면 같이 출력
+-- 해설 : 2개의 행만 출력하는 쿼리에서 3번째 행의 sal값이 2번째 행과 같다면 함께 출력 > 총 3개 행 출력
+
+
+-- [옵션] OFFSET : 출력이 시작되는 행의 위치 지정
+SELECT empno, ename, job, sal
+FROM emp
+ORDER BY sal DESC OFFSET 9 ROWS; 
+-- 시작되는 첫 번째 행은 월급이 전체 사원중 10번째(9+1)로 높은 사원 ~ 끝까지 결과 출력
+
+
+-- [옵션] OFFSET + FETCH
+SELECT empno, ename, job, sal
+FROM emp
+ORDER BY sal DESC OFFSET 9 ROWS
+FETCH FIRST 2 ROWS ONLY;
+-- OFFSET 9로 출력된 5개의 행 중 2개의 행만 출력 (10,11 번째 사원)
+
