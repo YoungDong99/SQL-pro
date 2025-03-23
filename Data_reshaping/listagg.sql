@@ -21,6 +21,7 @@ GROUP BY job;
 -- 연결 연산자를 사용해 직업별로 월급의 분포를 한눈에 확인하기
 
 
+
 /* 2. SUM + DECODE (ROW를 COLUMN으로 출력) */
 SELECT SUM(DECODE(deptno, 10, sal)) AS "10",
           SUM(DECODE(deptno, 20, sal)) AS "11",
@@ -131,6 +132,7 @@ SELECT ROWNUM, empno, ename, job, sal
 FROM emp
 WHERE ROWNUM <= 5;
 -- 상단 5개의 행만 출력
+
 
 
 /* 6. Simple TOP-n  Queries */
