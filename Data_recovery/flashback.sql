@@ -36,8 +36,8 @@ WHERE table_name = 'EMP';
 -- 성공적으로 플래쉬백이 되면 데이터를 확인한 후 COMMIT을 해야 변경상태가 DB에 영구히 반영됨
 
 -- 2-1. TO_TIMESTAMP 함수 : 지정한 시간으로 테이블 되돌리기
-FLASHBACK TABLE emp TO TIMESTAMP
-TO_TIMESTAMP('22/11/29 21:24:45', 'RR/MM/DD HH24:MI:SS');
+FLASHBACK TABLE emp1 TO TIMESTAMP 
+TO_TIMESTAMP('2025/03/20 21:24:45', 'YYYY/MM/DD HH24:MI:SS');
 
 -- 해당 시점까지 수행한 모든 DML 작업을 반대로 수행하며 EMP 테이블을 되돌린다.
 -- 지정된 과거 시점부터 현재까지 DDL이나 DCL문을 수행했다면 FLASHBACK 명령어가 수행되지 않고 에러 발생
