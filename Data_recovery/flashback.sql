@@ -14,7 +14,7 @@ WHERE ENAME = 'KING';
 -- 1-1. 시간으로 조회하기
 SELECT ename, sal
 FROM emp
-AS OF TIMESTAMP '22/11/29 21:24:45'
+AS OF TIMESTAMP TO_TIMESTAMP('2025/03/18 09:10:45', 'YYYY/MM/DD HH24:MI:SS')
 WHERE ename = 'KING';
 
 
@@ -78,7 +78,7 @@ ORDER BY versions_starttime;
 SELECT undo_sql         -- UNDO(취소)할 수 있는 SQL 조회        
 FROM flashback_transaction_query
 WHERE table_owner = 'SCOTT' AND table_name = 'EMP'
-AND commit_scn bewteen 9457390 AND 9457397
+AND commit_scn between 9457390 AND 9457397
 ORDER BY start_timestamp DESC;      -- 최근 정보가 먼저 추력되게 정렬
 
 -- SCN은 System Change Number의 약자로 commit할 때 생성되는 번호 > 특정 시간대의 SCN 번호로 범위 지정

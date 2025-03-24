@@ -68,5 +68,5 @@ FROM (SELECT JOB, SUM(SAL) 토탈
                                                 FROM JOB_SUMAL)
                         ) DEPTNO_SUMSAL;
 
--- 4행 오류:
+-- 에러
 -- ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다.
