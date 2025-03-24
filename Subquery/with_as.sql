@@ -64,8 +64,8 @@ FROM (SELECT JOB, SUM(SAL) 토탈
         (SELECT DEPTNO, SUM(SAL) 토탈
                         FROM EMP
                         GROUP BY DEPTNO
-                      HAVING SUM(SAL) > (SELECT AVG(토탈) + 3000
-                                                FROM JOB_SUMAL)
+                        HAVING SUM(SAL) > (SELECT AVG(토탈) + 3000
+                                            FROM JOB_SUMAL)
                         ) DEPTNO_SUMSAL;
 
 -- 에러
