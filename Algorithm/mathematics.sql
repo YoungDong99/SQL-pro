@@ -80,3 +80,84 @@ SELECT L1.NUM as 소수
     HAVING COUNT(L1.NUM) = 2
     소수는 1과 자기 자신만 나누어지므로 L1.NUM이 2개의 숫자로만 나누어지면 소수
 */
+
+
+-- 5. 최대 공약수 구하기
+
+ACCEPT p_n1 prompt ' 첫번째 숫자를 입력하세요.';
+ACCEPT p_n2 prompt ' 두번째 숫자를 입력하세요.';
+
+WITH NUM_D AS ( SELECT &p_n1 as NUM1, &p_n2 as NUM2
+                FROM DUAL )
+SELECT MAX(LEVEL) AS "최대 공약수"
+  FROM NUM_D
+  WHERE MOD(NUM1, LEVEL) = 0
+  AND MOD(NUM2, LEVEL) = 0
+  CONNECT BY LEVEL <= NUM2 ;
+
+/*
+  16과 24 입력 : 1번부터 24번까지의 숫자를 하나씩 16과 24로 나누면서 나눈 나머지 값이
+  둘 다 0이 되는 숫자를 찾아 그 중 최댓값 출력
+*/
+
+
+-- 6. 최소 공배수 구하기
+
+ACCEPT P_N1  PROMPT ' 첫번째 숫자를 입력하세요: ';
+ACCEPT P_N2  PROMPT ' 두번째 숫자를 입력하세요: ';
+
+WITH NUM_D AS ( SELECT &P_N1 NUM1, &P_N2 NUM2
+                 FROM DUAL )
+SELECT NUM1, NUM2, (NUM1/MAX(LEVEL))*(NUM2/MAX(LEVEL))*MAX(LEVEL) AS "최소 공배수"
+  FROM NUM_D
+  WHERE MOD(NUM1, LEVEL) = 0
+  AND MOD(NUM2, LEVEL) = 0
+  CONNECT BY LEVEL <= NUM2 ;
+
+/*
+  16과 24 입력 : 최대공약수 8을 구해서 16과 24를 나눈 후 몫인 3과 2를 곱해서 최소공배수 48 출력
+*/
+
+
+-- 7. 피타고라스의 정리
+
+ACCEPT NUM1 PROMPT '밑변의 길이를 입력하세요 ~ '
+ACCEPT NUM2 PROMPT '높이를 입력하세요 ~ '
+ACCEPT NUM3 PROMPT '빗변의 길이를 입력하세요 ~ '
+
+SELECT CASE WHEN ( POWER(&NUM1,2) + POWER(&NUM2,2) ) = POWER(&NUM3,2)  
+             THEN '직각 삼각형이 맞습니다'
+             ELSE '직각 삼각형이 아닙니다' END AS "파타고라스의 정리"
+  FROM DUAL;
+
+-- CASE문은 END로 반드시 종료
+-- AS 다음 컬럼 별칭으로 공백을 넣기 위해 더블 쿼테이션("") 사용
+
+
+-- 8. 몬테가를로 알고리즘
+
+SELECT SUM(CASE WHEN (POWER(NUM1,2) + POWER(NUM2,2)) <= 1  THEN 1
+                ELSE 0 END ) / 100000 * 4 as "원주율"
+ FROM ( 
+           SELECT DBMS_RANDOM.VALUE(0,1) AS NUM1,
+                  DBMS_RANDOM.VALUE(0,1) AS NUM2
+             FROM DUAL
+             CONNECT BY LEVEL < 100000
+        ) ; 
+
+
+-- 9. 오일러 상수 자연상수 구하기
+
+WITH LOOP_TABLE AS ( SELECT LEVEL  AS NUM 
+                     FROM DUAL 
+                     CONNECT BY LEVEL <= 1000000
+                     ) 
+SELECT RESULT
+  FROM ( 
+           SELECT NUM, POWER( (1 + 1/NUM) ,NUM) AS RESULT
+            FROM LOOP_TABLE
+                )
+  WHERE NUM = 1000000;
+
+-- 숫자가 커질수록 점점 자연상수(e) 값에 근사 -> 가장 마지막 제공 숫자인 1000000으로 출력 제한
+
